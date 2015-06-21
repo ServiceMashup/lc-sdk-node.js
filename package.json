@@ -1,0 +1,36 @@
+{
+  "name": "lc-sdk-node.js",
+  "version": "0.0.1",
+  "description": "Node.js SDK for service discovery",
+  "keywords": [
+    "microservice",
+    "discovery"
+  ],
+  "engines": {
+    "node": ">=0.8"
+  },
+  "main": "lc-sdk-node.js",
+  "scripts": {
+    "test": "mocha lc-sdk-node.specs.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ServiceMashup/lc-sdk-node.js.git"
+  },
+  "author": "ServiceMashup",
+  "contributors": [
+    "Mike Bild <mike@subkit.io>",
+    "Andreas Helmberger <public@ahelmberger.de>"
+  ],
+  "dependencies": {
+    "extend": "^2.0.1",
+    "q": "^1.4.1",
+    "q-superagent": "^1.0.1",
+    "superagent": "^1.2.0"
+  },
+  "devDependencies": {
+    "chai": "^3.0.0",
+    "mocha": "^2.2.5"
+  },
+  "license": "MIT"
+}
