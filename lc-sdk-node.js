@@ -17,7 +17,9 @@ module.exports = function (cfg) {
     get: get,
     post: post,
     put: put,
-    delete: del
+    delete: del,
+    getServices: getServices,
+    getServiceUrlsByTag: getServiceUrlsByTag
   };
 
   function get(serviceName, path) {
@@ -57,6 +59,46 @@ module.exports = function (cfg) {
     });
   }
 
+  function getServices(tag){
+
+    var funcs = config.discoveryServers.map(function (discoveryServer) {
+      return function () {
+        return request
+          .get(discoveryServer + '/v1/catalog/services')
+          .timeout(config.timeout)
+          .q();
+      };
+    });
+
+    return invokeUntilResolved(funcs).then(function (result) {
+      return Object.keys(result.body).filter(function(key){
+        return tag ? result.body[key].indexOf(tag) !== -1 : key;
+      });
+    });
+  }
+
+  function getServiceUrlsByTag(tag){
+    return getServices(tag)
+      .then(function(result){
+        return q        
+          .all(result.map(function (name) {
+            return getServiceUrls(name)
+              .then(function(data){
+                var result = {};
+                result[name] = data;
+                return result;
+              }); 
+          }))
+          .then(function(data){
+            var result = {}; 
+            data.forEach(function(itm){
+              extend(result, itm);
+            });
+            return result;
+          });
+      });
+  }
+
   function getServiceUrls(serviceName) {
     if (config.services[serviceName]) return q.when(config.services[serviceName]);
 
@@ -80,10 +122,6 @@ module.exports = function (cfg) {
   }
 
   function invokeUntilResolved(funcs) {
-    // Invoke functions that return promises sequentially
-    // and return the first resolved promise.
-    // Invoke the next function only when the return value
-    // of the previous function is a rejected promise.
     return funcs.reduce(function (previous, next) {
       return previous.catch(next);
     }, q.reject(new Error('No function specified')));
