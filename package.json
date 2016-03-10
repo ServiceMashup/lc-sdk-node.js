@@ -10,10 +10,10 @@
   "engines": {
     "node": ">=0.8"
   },
-  "main": "lc-sdk-node.js",
+  "main": "./lib/lc-http-client.js",
   "scripts": {
     "test": "mocha ./test/lc-http-client.specs.js",
-    "build": "browserify ./src/lc-http-client.js --s HTTPClient > ./dist/lc-http-client.js"
+    "build": "browserify ./lib/lc-http-client.js --s HTTPClient > ./dist/lc-http-client.js"
   },
   "repository": {
     "type": "git",

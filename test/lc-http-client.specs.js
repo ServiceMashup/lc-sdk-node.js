@@ -1,4 +1,4 @@
-var serviceSDK = require('../src/lc-http-client');
+var serviceSDK = require('../lib/lc-http-client');
 var expect     = require('chai').expect;
 
 var DISCOVERY_SERVICE_URLS = [
