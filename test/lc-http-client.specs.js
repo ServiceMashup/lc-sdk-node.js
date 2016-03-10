@@ -1,10 +1,8 @@
-var serviceSDK = require('./lc-sdk-node');
+var serviceSDK = require('../src/lc-http-client');
 var expect     = require('chai').expect;
 
 var DISCOVERY_SERVICE_URLS = [
-  'http://46.101.245.190:8500',
-  'http://46.101.132.55:8500',
-  'http://46.101.193.82:8500'
+  'http://46.101.175.234:8500'
 ];
 
 describe('When we make a request to a service', function () {
@@ -12,7 +10,7 @@ describe('When we make a request to a service', function () {
 
   before(function (done) {
     serviceSDK({ discoveryServers: DISCOVERY_SERVICE_URLS })
-      .get('welcome-service', '/healthcheck')
+      .get('subkitmikebild', '/healthcheck')
       .then(function (res) {
         result = res;
       })
@@ -20,7 +18,7 @@ describe('When we make a request to a service', function () {
   });
 
   it('should respond with the expected data', function () {
-    expect(result).eql({ message: 'OK' });
+    expect(result.version).eql('2.6.11');
   });
 
 });

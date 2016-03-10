@@ -117,7 +117,7 @@ module.exports = function (cfg) {
 
     return invokeUntilResolved(funcs).then(function (result) {
       var serviceUrls = result.map(function (itm) {
-        return itm.Address + ':' + itm.ServicePort;
+        return itm.ServiceAddress + ':' + itm.ServicePort;
       });
 
       config.services[serviceName] = serviceUrls;
@@ -128,7 +128,7 @@ module.exports = function (cfg) {
   function invokeUntilResolved(funcs) {
     return funcs.reduce(function (previous, next) {
       return previous.catch(next);
-    }, Promise.reject(new Error('No function specified')));
+    }, Promise.reject(new Error('No discovery servers or resolver function specified.')));
   }
 
 };
