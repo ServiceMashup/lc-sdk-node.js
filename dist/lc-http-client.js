@@ -50,7 +50,7 @@ module.exports = function (cfg) {
               'Content-Type': 'application/json',
               'Connection': 'keep-alive'
             },
-            body: value
+            body: JSON.stringify(value)
           }).then(handleResponse);
         };
       });
@@ -107,7 +107,7 @@ module.exports = function (cfg) {
   }
 
   function getServiceUrls(serviceName) {
-    if (config.services[serviceName]) return Promise.when(config.services[serviceName]);
+    if (config.services[serviceName]) return Promise.resolve(config.services[serviceName]);
 
     var funcs = config.discoveryServers.map(function (discoveryServer) {
       return function () {
