@@ -17,7 +17,8 @@ module.exports = function (cfg) {
     put: put,
     delete: del,
     getServices: getServices,
-    getServiceUrlsByTag: getServiceUrlsByTag
+    getServiceUrlsByTag: getServiceUrlsByTag,
+    getServiceUrls: getServiceUrls
   };
 
   function get(serviceName, path) {
