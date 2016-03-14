@@ -1,4 +1,4 @@
-var serviceSDK = require('../lib/lc-http-client');
+var http       = require('../lib/lc-http-client');
 var expect     = require('chai').expect;
 
 var DISCOVERY_SERVICE_URLS = [
@@ -9,7 +9,7 @@ describe('When we make a request to a service', function () {
   var result;
 
   before(function (done) {
-    serviceSDK({ discoveryServers: DISCOVERY_SERVICE_URLS })
+    http({ discoveryServers: DISCOVERY_SERVICE_URLS })
       .get('subkitmikebild', '/healthcheck')
       .then(function (res) {
         result = res;
@@ -22,3 +22,22 @@ describe('When we make a request to a service', function () {
   });
 
 });
+
+describe('When we need the address of a service name', function () {
+  var result;
+
+  before(function (done) {
+    http({ discoveryServers: DISCOVERY_SERVICE_URLS })
+      .getServiceUrlsByTag('subkitmikebild')
+      .then(function (res) {
+        result = res;
+      })
+      .then(done, done);
+  });
+
+  it('should respond with the expected data', function () {
+    expect(result).eql({ subkitmikebild: [ '46.101.210.183:32770' ] });
+  });
+
+});
+
