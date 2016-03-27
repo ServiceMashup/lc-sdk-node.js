@@ -62,7 +62,9 @@ module.exports = function (cfg) {
 
   function handleResponse(res) {
     if (res.status < 200 || res.status > 299) {
-      throw new Error(res);
+      var error = new Error(res.statusText);
+      error.response = res;
+      throw error;
     }
     if (res.status !== 204) {
       return res.json();
